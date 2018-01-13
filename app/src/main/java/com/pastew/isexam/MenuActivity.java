@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
@@ -15,13 +16,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.pastew.isexam.data.FileParser;
 import com.pastew.isexam.data.Subject;
 import com.pastew.isexam.data.Subjects;
 import com.pastew.isexam.favourites.FavouritesQuestions;
 import com.pastew.isexam.utils.Utils;
 
-import java.io.IOException;
 import java.util.List;
 
 public class MenuActivity extends Activity {
@@ -46,6 +45,7 @@ public class MenuActivity extends Activity {
         sharedPreferences = getSharedPreferences(FinalStrings.ONLINE_SHARED_PREFERENCES, Context.MODE_PRIVATE);
         favouritesQuestions = new FavouritesQuestions(getSharedPreferences(FinalStrings.FAVOURITE_SHARED_PREFERENCES, Context.MODE_PRIVATE));
         setOnline(((CheckBox) findViewById(R.id.online_checkbox)).isChecked());
+
     }
 
     private void addCheckBoxListener() {
@@ -167,6 +167,10 @@ public class MenuActivity extends Activity {
         int[] questionsIDs = new int[questionsNumber];
         System.arraycopy(subjectQuestionsIDs, 0, questionsIDs, 0, questionsNumber);
 
+        for (int questionsID : questionsIDs) {
+            Log.d("ID", "ID " + questionsID);
+        }
+
         Intent intent = new Intent(this, TestActivity.class);
         intent.putExtra(FinalStrings.QUESTIONS_IDS, questionsIDs);
         startActivity(intent);
@@ -190,13 +194,7 @@ public class MenuActivity extends Activity {
     }
 
     private void populateSubjectsSpinner() {
-        try {
-            subjects = FileParser.readSubjects(this.getAssets().open("subjects.txt"));
-        } catch (IOException e) {
-            Toast.makeText(this, getString(R.string.cant_load_answers), Toast.LENGTH_LONG).show();
-            finish();
-            return;
-        }
+        subjects = new SubjectsCreator(getApplication()).getSubjects();
 
         List<String> subjectsNameList = subjects.getNamesList();
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, subjectsNameList);

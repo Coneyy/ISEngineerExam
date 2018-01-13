@@ -42,4 +42,8 @@ public class Subjects {
 
         return 10; // That's not a good idea (?)
     }
+
+    public ArrayList<Subject> getSubjects() {
+        return subjects;
+    }
 }

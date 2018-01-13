@@ -8,7 +8,11 @@ public class Subject {
     private String name;
     private int[] questionsIDs;
 
-    public int[] getQuestionsIDs(){ return questionsIDs; };
+    public int[] getQuestionsIDs(){ return questionsIDs; }
+
+    public void updateQuestionsIDs(int[] questionsIDs) {
+        this.questionsIDs = questionsIDs;
+    }
 
     public Subject(String name, int[] questionsIDs){
         this.name = name;

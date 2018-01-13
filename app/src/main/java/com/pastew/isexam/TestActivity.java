@@ -7,7 +7,6 @@ import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -118,7 +117,7 @@ public class TestActivity extends Activity {
     private void startTest() {
         currentQuestion = 0;
         scores = new int[questionsIds.length];
-        for(int i = 0 ; i < scores.length ; ++i)
+        for (int i = 0; i < scores.length; ++i)
             scores[i] = 0;
     }
 
@@ -159,7 +158,7 @@ public class TestActivity extends Activity {
             public void onClick(View v) {
                 addQuestionToFavouritesIfNeeded(questionsIds[currentQuestion]);
 
-                if (currentQuestion+1 >= questionsIds.length)
+                if (currentQuestion + 1 >= questionsIds.length)
                     endTest();
                 else
                     showQuestion(questionsIds[++currentQuestion]);
@@ -170,8 +169,7 @@ public class TestActivity extends Activity {
     }
 
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
         addQuestionToFavouritesIfNeeded(questionsIds[currentQuestion]);
         super.onBackPressed();
     }
@@ -228,7 +226,7 @@ public class TestActivity extends Activity {
     };
 
     private void addQuestionToFavouritesIfNeeded(int questionId) {
-        if(favSwitch.isChecked())
+        if (favSwitch.isChecked())
             favouritesQuestions.addQuestionToFavourites(questionId);
         else
             favouritesQuestions.removeQuestionFromFavourites(questionId);
@@ -276,8 +274,10 @@ public class TestActivity extends Activity {
     private void showQuestion(int questionNumber) {
         findViewById(R.id.main_layout).setClickable(false);
 
+        Log.d("APP", "SHOW QUESTION " + questionNumber);
+
         // we don't know the correct answer, show dialog
-        if(answers.get(questionsIds[currentQuestion]).equals(Answer.UNKNOWN))
+        if (answers.get(questionsIds[currentQuestion]).equals(Answer.UNKNOWN))
             findViewById(R.id.unknown_answer_dialog).setVisibility(View.VISIBLE);
         else
             findViewById(R.id.unknown_answer_dialog).setVisibility(View.INVISIBLE);
