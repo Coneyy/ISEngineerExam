@@ -1,6 +1,6 @@
 package com.pastew.isexam;
 
-import android.app.Application;
+import android.support.multidex.MultiDexApplication;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
@@ -11,7 +11,7 @@ import com.pastew.isexam.online.AnalyticsTrackers;
 /**
  * Created by Pastew on 2016-01-11.
  */
-public class AnalyticsApplication extends Application {
+public class AnalyticsApplication extends MultiDexApplication {
     public static final String TAG = AnalyticsApplication.class.getSimpleName();
 
     private static AnalyticsApplication mInstance;
