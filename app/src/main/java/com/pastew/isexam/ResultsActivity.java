@@ -1,7 +1,9 @@
 package com.pastew.isexam;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -17,6 +19,8 @@ public class ResultsActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        checkDarkTheme();
+
         setContentView(R.layout.activity_results);
 
         getExtras();
@@ -25,6 +29,17 @@ public class ResultsActivity extends Activity {
 
         initUI();
         addButtonListeners();
+    }
+
+    private void checkDarkTheme() {
+        SharedPreferences sharedPreferences
+                = getSharedPreferences(FinalStrings.ONLINE_SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        boolean isDarkLayout = sharedPreferences
+                .getBoolean(getString(R.string.dark_layout_pref), false);
+
+        if (isDarkLayout) {
+            setTheme(R.style.AppDarkTheme);
+        }
     }
 
     private void addButtonListeners() {

@@ -162,4 +162,28 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
+    <Switch
+        android:id="@+id/dark_layout_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/online_checkbox"
+        android:layout_alignEnd="@+id/online_checkbox"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/online_checkbox"
+        android:layout_marginBottom="27dp"
+        android:text="@string/dark_layout" />
+
+    <Switch
+        android:id="@+id/sound_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/dark_layout_switch"
+        android:layout_alignEnd="@+id/dark_layout_switch"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/dark_layout_switch"
+        android:layout_marginBottom="11dp"
+        android:text="@string/sound" />
+
 </RelativeLayout>

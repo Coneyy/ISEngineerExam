@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,21 +32,24 @@ public class MenuActivity extends Activity {
     public final int QUESTION_INCREMENT = 5;
 
     private Subjects subjects;
+    private boolean isDarkLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sharedPreferences = getSharedPreferences(FinalStrings.ONLINE_SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        checkDarkTheme();
+
         setContentView(R.layout.activity_menu);
 
         ((TextView) findViewById(R.id.app_version_tv)).setText("v" + BuildConfig.VERSION_NAME);
         populateSubjectsSpinner();
         addButtonsListeners();
         addCheckBoxListener();
+        initSwitches();
 
-        sharedPreferences = getSharedPreferences(FinalStrings.ONLINE_SHARED_PREFERENCES, Context.MODE_PRIVATE);
         favouritesQuestions = new FavouritesQuestions(getSharedPreferences(FinalStrings.FAVOURITE_SHARED_PREFERENCES, Context.MODE_PRIVATE));
         setOnline(((CheckBox) findViewById(R.id.online_checkbox)).isChecked());
-
     }
 
     private void addCheckBoxListener() {
@@ -61,7 +65,52 @@ public class MenuActivity extends Activity {
     private void setOnline(boolean online) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean(getString(R.string.online_pref), online);
-        editor.commit();
+        editor.apply();
+    }
+
+    private void checkDarkTheme() {
+        isDarkLayout = sharedPreferences
+                .getBoolean(getString(R.string.dark_layout_pref), false);
+
+        if (isDarkLayout) {
+            setTheme(R.style.AppDarkTheme);
+        }
+    }
+
+    private void initSwitches() {
+        Switch darkLayoutSwitch = findViewById(R.id.dark_layout_switch);
+        darkLayoutSwitch.setChecked(isDarkLayout);
+
+        darkLayoutSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean(getString(R.string.dark_layout_pref), checked);
+                editor.apply();
+
+                if (checked) {
+                    setTheme(R.style.AppDarkTheme);
+                    recreate();
+                } else {
+                    setTheme(R.style.AppTheme);
+                    recreate();
+                }
+            }
+        });
+
+        Switch soundSwitch = findViewById(R.id.sound_switch);
+        boolean isSound = sharedPreferences
+                .getBoolean(getString(R.string.sound_pref), true);
+        soundSwitch.setChecked(isSound);
+
+        soundSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean(getString(R.string.sound_pref), checked);
+                editor.apply();
+            }
+        });
     }
 
     private void addButtonsListeners() {
