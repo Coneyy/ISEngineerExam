@@ -3,6 +3,7 @@ package com.pastew.isexam;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
@@ -48,14 +49,18 @@ public class TestActivity extends Activity {
     private int[] scores;
 
     private AnswerSender answerSender;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sharedPreferences = getSharedPreferences(FinalStrings.ONLINE_SHARED_PREFERENCES, Context.MODE_PRIVATE);
+
         initSounds();
         loadAllAnswers();
+        checkDarkTheme();
 
-        favouritesQuestions = new FavouritesQuestions(getSharedPreferences(FinalStrings.FAVOURITE_SHARED_PREFERENCES, Context.MODE_PRIVATE));
+        favouritesQuestions = new FavouritesQuestions(sharedPreferences);
 
         setContentView(R.layout.activity_test);
         setupUI();
@@ -89,7 +94,21 @@ public class TestActivity extends Activity {
         showQuestion(questionsIds[currentQuestion]);
     }
 
+    private void checkDarkTheme() {
+        boolean isDarkLayout = sharedPreferences
+                .getBoolean(getString(R.string.dark_layout_pref), false);
+
+        if (isDarkLayout) {
+            setTheme(R.style.AppDarkTheme);
+        }
+    }
+
     private void initSounds() {
+        boolean isSound = sharedPreferences
+                .getBoolean(getString(R.string.sound_pref), true);
+        if (!isSound)
+            return;
+
         this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
         soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
         soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {

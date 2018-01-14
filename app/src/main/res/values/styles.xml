@@ -17,4 +17,7 @@
         <item name="android:layout_weight">1</item>
     </style>
 
+    <style name="AppDarkTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+    </style>
+
 </resources>

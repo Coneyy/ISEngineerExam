@@ -22,8 +22,12 @@
     <string name="yours_score">Twój wynik:</string>
     <string name="exit">Wróć do menu</string>
     <string name="retake_test">Popraw złe odpowiedzi</string>
+    <string name="dark_layout">Ciemny motyw</string>
+    <string name="sound">Dźwięki</string>
 
     <string name="url">http://is-exam.axartmedia.com</string>
 
     <string name="online_pref">online_pref</string>
+    <string name="dark_layout_pref">dark_layout_pref</string>
+    <string name="sound_pref">sound_pref</string>
 </resources>
